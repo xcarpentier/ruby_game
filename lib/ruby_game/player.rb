@@ -1,8 +1,8 @@
 module RubyGame	
 	class Player < StaticObject
 		attr_reader :x, :y
-		def initialize(window, x, y)
-			super(window, x, y, "player.png")			
+		def initialize(x, y)
+			super(x, y, "player.png")			
 		end
 
 		def move_left

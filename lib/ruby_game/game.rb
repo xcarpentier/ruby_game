@@ -2,16 +2,17 @@ require 'gosu'
 
 module RubyGame
 	class Game < Gosu::Window		
-		def initialize
+		def initialize(player, ruby, monsters)
 			super(640, 480, false)
 			@background_image = Gosu::Image.new(self, File.join(IMAGE_PATH, "background.png"), true)
 
 			@font = Gosu::Font.new(self, Gosu::default_font_name, 60)
 
-			@player = Player.new(self, 200, 300)
-			@ruby = Ruby.new(self, 100, 100)
-			@monsters = [Monster.new(self), Monster.new(self), Monster.new(self)]
-
+			@player = player			
+			@ruby = ruby
+			@monsters = monsters
+			
+			([@player, @ruby] + @monsters).each{|object| object.init_image(self)}
 		end
 
 		def update
