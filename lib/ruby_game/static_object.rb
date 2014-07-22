@@ -10,5 +10,9 @@ module RubyGame
 		def draw
 			@image.draw_rot(@x, @y, 1, 0)
 		end
+
+		def touch?(object)
+			Math.hypot(object.x - @x, object.y - @y) <= 30
+		end
 	end
 end

@@ -8,6 +8,7 @@ module RubyGame
 		def follow(player)
 			@x -= (@x <=> player.x) * @velocity
 			@y -= (@y <=> player.y) * @velocity
-		end
+		end		
+
 	end
 end
