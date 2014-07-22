@@ -7,6 +7,7 @@ module RubyGame
 			@background_image = Gosu::Image.new(self, File.join(IMAGE_PATH, "background.png"), true)
 			@player = Player.new(self, 200, 300)
 			@ruby = Ruby.new(self, 100, 100)
+			@monster = Monster.new(self, 300, 300)
 		end
 
 		def update
@@ -14,11 +15,13 @@ module RubyGame
 			@player.move_right if button_down?(Gosu::Button::KbRight)
 			@player.move_up if button_down?(Gosu::Button::KbUp)
 			@player.move_down if button_down?(Gosu::Button::KbDown)
+
+			@monster.follow(@player)
 		end
 		
 		def draw
 			@background_image.draw(0, 0, 0)
-			[@player, @ruby].each {|object| object.draw} 			
+			[@player, @ruby, @monster].each {|object| object.draw} 			
 		end
 
 		def start!

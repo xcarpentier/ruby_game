@@ -1,5 +1,6 @@
-module RubyGame
+module RubyGame	
 	class Player < StaticObject
+		attr_reader :x, :y
 		def initialize(window, x, y)
 			super(window, x, y, "player.png")			
 		end
