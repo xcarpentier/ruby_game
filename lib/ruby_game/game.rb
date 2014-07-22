@@ -10,7 +10,7 @@ module RubyGame
 
 			@player = Player.new(self, 200, 300)
 			@ruby = Ruby.new(self, 100, 100)
-			@monster = Monster.new(self, 300, 300)
+			@monsters = [Monster.new(self), Monster.new(self), Monster.new(self)]
 
 		end
 
@@ -20,26 +20,27 @@ module RubyGame
 				@player.move_left if button_down?(Gosu::Button::KbLeft)
 				@player.move_right if button_down?(Gosu::Button::KbRight)
 				@player.move_up if button_down?(Gosu::Button::KbUp)
-				@player.move_down if button_down?(Gosu::Button::KbDown)
-				@monster.follow(@player)
+				@player.move_down if button_down?(Gosu::Button::KbDown)				
+				@monsters.each {|object| object.follow(@player)}
 			else
 				if button_down?(Gosu::Button::KbSpace)
 					@state = :run
 					@player = Player.new(self, 200, 300)
 					@ruby = Ruby.new(self, 100, 100)
-					@monster = Monster.new(self, 300, 300)
+					@monsters = [Monster.new(self), Monster.new(self), Monster.new(self)]
 				end					
 			end
 			
-			self.gameover! if @monster.touch?(@player)
+			@monsters.each {|object| self.gameover! if object.touch?(@player)}			
 			self.win! if @player.touch?(@ruby)			
 		end
 		
 		def draw
 			@background_image.draw(0, 0, 0)
-			[@player, @ruby, @monster].each {|object| object.draw}
+			[@player, @ruby].each {|object| object.draw}
+			@monsters.each {|object| object.draw}
 			@font.draw("Game Over !", 200, 240, 2, 1.0, 1.0, 0xffffff00) if self.gameover?
-			@font.draw("Win !", 200, 240, 2, 1.0, 1.0, 0xffffff00) if self.win?
+			@font.draw("You win !", 200, 240, 2, 1.0, 1.0, 0xffffff00) if self.win?
 		end
 
 		def start!
