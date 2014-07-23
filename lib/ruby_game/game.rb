@@ -13,23 +13,11 @@ module RubyGame
 			self.restart! if id == Gosu::Button::KbR && !run?
 		end
 
-		def player(player)
-			@player = player
+		%w(player monsters ruby).each do |method_name|
+  			define_method "#{method_name}" do |new_object|
+				instance_variable_set("@#{method_name}", new_object)
+ 			end 			
 		end
-
-		def ruby(ruby)
-			@ruby = ruby
-		end
-		
-		def monsters(monsters)
-			@monsters = monsters
-		end
-
-		# %w(player ruby monsters).each do |object|
-		# 			define_method "#{object}" do
-		#   			instance_variable_set("@#{object}", object)
-		# 		end
-		# end		
 
 		def update			
 			if run?
@@ -51,15 +39,9 @@ module RubyGame
 			@font.draw("You won !", 200, 240, 2, 1.0, 1.0, 0xffffff00) if self.win?
 		end
 
-		def start!(&conf)
-			
-			if block_given?
-				@block = conf
-				conf.call(self)
-			else
-				@block.call(self)
-			end
-
+		def start!(&block)			
+			@init = block if block_given?
+			self.instance_eval(&@init)
 			([@player, @ruby] + @monsters).each{|object| object.init_image(self)}
 			run!
 			self.show if block_given?
