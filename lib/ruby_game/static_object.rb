@@ -15,6 +15,7 @@ module RubyGame
 		end
 
 		def init_image(window)
+			@window = window
 			@image = Gosu::Image.new(window, File.join(IMAGE_PATH, @image_name), true)
 		end
 

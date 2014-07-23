@@ -1,3 +1,8 @@
 #!/usr/bin/env ruby
 require_relative '../lib/ruby_game'
-RubyGame::Game.new.start!
+
+RubyGame::Game.new.start! do |g|
+	g.player RubyGame::Player.new(200, 300)
+	g.ruby RubyGame::Ruby.new(100, 100)
+	g.monsters Array.new(5) { RubyGame::Monster.new }
+end
