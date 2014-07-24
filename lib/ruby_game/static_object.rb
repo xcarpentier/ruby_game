@@ -1,5 +1,6 @@
 module RubyGame
-	class StaticObject		
+	class StaticObject
+		attr_writer :x,:y
 		def initialize(x, y, image_name)
 			@image_name = image_name
 			@x = x
@@ -16,7 +17,7 @@ module RubyGame
 
 		def init_image(window)
 			@window = window
-			@image = Gosu::Image.new(window, File.join(IMAGE_PATH, @image_name), true)
+			@image = Gosu::Image.new(window, File.join(IMAGE_PATH, @image_name + ".png"), true)
 		end
 
 	end

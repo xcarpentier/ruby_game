@@ -5,18 +5,21 @@ module RubyGame
 		def initialize
 			super(640, 480, false)
 			@background_image = Gosu::Image.new(self, File.join(IMAGE_PATH, "background.png"), true)
-
-			@font = Gosu::Font.new(self, Gosu::default_font_name, 60)		
+			@font = Gosu::Font.new(self, Gosu::default_font_name, 60)			
 		end
 
 		def button_down(id)
 			self.restart! if id == Gosu::Button::KbR && !run?
 		end
 
-		%w(player monsters ruby).each do |method_name|
+		%w(player ruby).each do |method_name|
   			define_method "#{method_name}" do |new_object|
 				instance_variable_set("@#{method_name}", new_object)
- 			end 			
+ 			end
+		end
+
+		def monsters(monsters)
+			@monsters = @monsters + monsters
 		end
 
 		def update			
@@ -40,6 +43,7 @@ module RubyGame
 		end
 
 		def start!(&block)			
+			@monsters = []
 			@init = block if block_given?
 			self.instance_eval(&@init)
 			([@player, @ruby] + @monsters).each{|object| object.init_image(self)}
